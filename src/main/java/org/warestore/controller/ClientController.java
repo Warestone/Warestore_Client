@@ -16,7 +16,7 @@ public class ClientController {
 
 
     @GetMapping("/")
-    public String getSearchUserPage(Model model){
+    public String getIndexPage(Model model){
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<List<Category>> response = restTemplate.exchange(
                 "http://localhost:2033/server/get/category",
@@ -26,5 +26,11 @@ public class ClientController {
         List<Category> categories = response.getBody();
         model.addAttribute("categoriesList", categories);
         return "index";
+    }
+
+    @GetMapping("/rifles")
+    public String getRiflesPage(Model model){
+
+        return "rifles";
     }
 }

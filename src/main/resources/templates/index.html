@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="Ru">
     <head>
-        <title>User search page</title>
+        <title>Warestore - Главная</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <style type="text/css">
             TABLE {
@@ -16,7 +16,7 @@
         </style>
     </head>
     <body>
-        <h1 th:align="center">WARESTORE SHOP INDEX PAGE</h1>
+        <h1 th:align="center">WARESTORE ГЛАВНАЯ</h1>
         <form th:action="@{/search}" th:object="${categoriesList}" method="get">
             <table th:align="center">
                 <tr th:each="category: ${categoriesList}">
