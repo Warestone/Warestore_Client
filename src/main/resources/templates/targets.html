@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="Ru">
 <head>
-    <title>Warestore - Нарезное оружие</title>
+    <title>Warestore - Мишени</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <style type="text/css">
         TABLE {
@@ -16,16 +16,16 @@
     </style>
 </head>
 <body>
-<h1 th:align="center">Нарезное оружие</h1>
-<form th:object="${riflesList}" method="get">
+<h1 th:align="center">Мишени</h1>
+<form th:object="${targetList}" method="get">
     <table th:align="center">
-        <tr th:each="rifle: ${riflesList}">
-            <td th:text="${rifle.id}"/>
-            <td th:text="${rifle.name}"/>
-            <td th:text="${rifle.description}"/>
-            <td th:text="${rifle.caliber}"/>
-            <td th:text="${rifle.quantity}"/>
-            <td th:text="${rifle.price}"/>
+        <tr th:each="target: ${targetList}">
+            <td th:text="${target.id}"/>
+            <td th:text="${target.name}"/>
+            <td th:text="${target.description}"/>
+            <td th:text="${target.size}"/>
+            <td th:text="${target.quantity}"/>
+            <td th:text="${target.price}"/>
         </tr>
     </table>
 </form>
