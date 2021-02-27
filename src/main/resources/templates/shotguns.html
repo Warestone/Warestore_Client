@@ -2,25 +2,17 @@
 <head>
     <title>Warestore - Гладкоствольное оружие</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <style type="text/css">
-        TABLE {
-            border-collapse: collapse;
-        }
-        TD, TH {
-            padding: 3px;
-            border: 1px solid black;
-        }
-        TH {
-            background: #b0e0e6; /* Цвет фона */
-        }
-    </style>
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
 </head>
-<body>
+<body th:style="'background: url(/img/background.jpg) no-repeat center center fixed;'">
+<p><img th:src="@{img/AmmuNationHeader.png}" th:class="image_header" alt=""/></p>
 <h1 th:align="center">Гладкоствольное оружие</h1>
 <form th:object="${shotgunsList}" method="get">
-    <table th:align="center">
+    <table th:align="center" th:id="products">
+        <th>Арктикул</th><th></th><th>Наименование</th><th>Описание</th><th>Калибр</th><th>Количество, шт.</th><th>Цена, ₽</th>
         <tr th:each="shotgun: ${shotgunsList}">
             <td th:text="${shotgun.id}"/>
+            <td><img th:src="@{img/NoShotgunImage.png}" alt="" th:class="image_catalog"/></td>
             <td th:text="${shotgun.name}"/>
             <td th:text="${shotgun.description}"/>
             <td th:text="${shotgun.caliber}"/>
