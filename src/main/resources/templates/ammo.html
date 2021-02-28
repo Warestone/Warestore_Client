@@ -3,13 +3,14 @@
     <title>Warestore - Боеприпасы</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
+    <script th:src="@{/js/script.js}"></script>
 </head>
 <body th:style="'background: url(/img/background.jpg) no-repeat center center fixed;'">
 <p><img th:src="@{img/AmmuNationHeader.png}" th:class="image_header" alt=""/></p>
 <h1 th:align="center">Боеприпасы</h1>
 <form th:object="${ammoList}" method="get">
     <table th:align="center" th:id="products">
-        <th>Арктикул</th><th></th><th>Наименование</th><th>Описание</th><th>Калибр</th><th>Количество в пачке, шт.</th><th>Количество на складе, шт.</th><th>Цена за шт., ₽</th>
+        <th>Арктикул</th><th></th><th>Наименование</th><th>Описание</th><th>Калибр</th><th>Количество в пачке, шт.</th><th>Количество на складе, шт.</th><th>Цена за шт., ₽</th><th>Добавить в корзину</th>
         <tr th:each="ammo: ${ammoList}">
             <td th:text="${ammo.id}"/>
             <td><img th:src="@{img/NoAmmoImage.png}" alt="" th:class="image_catalog"/></td>
@@ -19,6 +20,15 @@
             <td th:text="${ammo.rounds}"/>
             <td th:text="${ammo.quantity}"/>
             <td th:text="${ammo.price}"/>
+            <td>
+                <form>
+                    <input type="hidden" th:value="${ammo.id}" name="id">
+                    <input type="hidden" th:value="${ammo.quantity}" name="quantity">
+                    <button type="button" onclick="addToCart(this.form.id.value, this.form.quantity.value)">+</button>
+                    <p th:id="${ammo.id}">0</p>
+                    <button type="button" onclick="deleteFromCart(this.form.id.value)">-</button>
+                </form>
+            </td>
         </tr>
     </table>
 </form>

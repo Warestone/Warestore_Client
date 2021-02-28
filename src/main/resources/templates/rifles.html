@@ -3,13 +3,14 @@
     <title>Warestore - Нарезное оружие</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
+    <script th:src="@{/js/script.js}"></script>
 </head>
 <body th:style="'background: url(/img/background.jpg) no-repeat center center fixed;'">
 <p><img th:src="@{img/AmmuNationHeader.png}" th:class="image_header" alt=""/></p>
 <h1 th:align="center">Нарезное оружие</h1>
 <form th:object="${riflesList}" method="get">
     <table th:id="products" th:align="center">
-        <th>Арктикул</th><th></th><th>Наименование</th><th>Описание</th><th>Калибр</th><th>Количество, шт.</th><th>Цена, ₽</th>
+        <th>Арктикул</th><th></th><th>Наименование</th><th>Описание</th><th>Калибр</th><th>Количество, шт.</th><th>Цена, ₽</th><th>Добавить в корзину</th>
         <tr th:each="rifle: ${riflesList}">
             <td th:text="${rifle.id}"/>
             <td><img th:src="@{img/NoRifleImage.png}" alt="" th:class="image_catalog"/></td>
@@ -18,6 +19,15 @@
             <td th:text="${rifle.caliber}"/>
             <td th:text="${rifle.quantity}"/>
             <td th:text="${rifle.price}"/>
+            <td>
+                <form>
+                    <input type="hidden" th:value="${rifle.id}" name="id">
+                    <input type="hidden" th:value="${rifle.quantity}" name="quantity">
+                    <button type="button" onclick="addToCart(this.form.id.value, this.form.quantity.value)">+</button>
+                    <p th:id="${rifle.id}">0</p>
+                    <button type="button" onclick="deleteFromCart(this.form.id.value)">-</button>
+                </form>
+            </td>
         </tr>
     </table>
 </form>
