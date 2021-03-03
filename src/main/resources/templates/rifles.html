@@ -23,7 +23,9 @@
                 <form>
                     <input type="hidden" th:value="${rifle.id}" name="id">
                     <input type="hidden" th:value="${rifle.quantity}" name="quantity">
-                    <button type="button" onclick="addToCart(this.form.id.value, this.form.quantity.value)">+</button>
+                    <input type="hidden" th:value="${rifle.price}" name="price">
+                    <input type="hidden" th:value="${rifle.name}" name="name_p">
+                    <button type="button" onclick="addToCart(this.form.id.value, this.form.quantity.value, this.form.price.value, this.form.name_p.value)">+</button>
                     <p th:id="${rifle.id}">0</p>
                     <button type="button" onclick="deleteFromCart(this.form.id.value)">-</button>
                 </form>
@@ -31,5 +33,22 @@
         </tr>
     </table>
 </form>
+<form th:action="@{/getRiflesPageButtons}" method="post" th:align="center">
+    <input type="hidden" name="currentPage" id="currentPage" value="0">
+    <input type="submit" value="< предыдущая страница" onclick="prevPage()"><input type="submit" value="следующая страница >" onclick="nextPage()">
+</form>
+<br>
+<br>
+<br>
+<br>
+<div id="div_cartFrom" style="display:none" >
+    <table id="products" th:align="center">
+        <tr><th></th><th><h1>Добавить к покупке</h1></th><th></th></tr>
+        <th>Наименование</th><th>Количество, шт.</th><th>Цена, ₽</th>
+        <tbody id="bodyCartTable">
+        </tbody>
+        <th><h2>Общая сумма</h2><h2 id="totalSum"></h2><h2>₽</h2></th><th></th><th><a class="button1" onclick="addToPurchase()">Добавить к покупке</a></th>
+    </table>
+</div>
 </body>
 </html>

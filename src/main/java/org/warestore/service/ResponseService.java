@@ -19,4 +19,9 @@ public class ResponseService {
                 new ParameterizedTypeReference<List<?>>(){});
         return response.getBody();
     }
+
+    public String getURL(String url, String page){
+        if (page == null) return url+0;
+        else return url+page;
+    }
 }

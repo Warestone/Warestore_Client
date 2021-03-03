@@ -23,42 +23,56 @@ public class CatalogController {
     }
 
     @GetMapping("/rifles")
-    public String getRiflesPage(Model model){
-        List<Weapon> rifles = (List<Weapon>) responseService.
-                getData("http://localhost:2033/server/catalog/get/rifle");
+    public String getRiflesPage(Model model, String page){
+        List<Weapon> rifles = (List<Weapon>) responseService.getData(responseService.
+                getURL("http://localhost:2033/server/catalog/get/rifle_page/", page)
+        );
         model.addAttribute("riflesList", rifles);
         return "rifles";
     }
+    @PostMapping("/getRiflesPageButtons")
+    public String nextRiflesPage(@RequestParam("currentPage") String page, Model model){ return getRiflesPage(model, page); }
+
 
     @GetMapping("/shotguns")
-    public String getShotgunsPage(Model model){
-        List<Weapon> shotguns = (List<Weapon>) responseService.
-                getData("http://localhost:2033/server/catalog/get/shotgun");
+    public String getShotgunsPage(Model model, String page){
+        List<Weapon> shotguns = (List<Weapon>) responseService.getData(responseService.
+                getURL("http://localhost:2033/server/catalog/get/shotgun_page/", page)
+        );
         model.addAttribute("shotgunsList", shotguns);
         return "shotguns";
     }
+    @PostMapping("/getShotgunsPageButtons")
+    public String nextShotgunPage(@RequestParam("currentPage") String page, Model model){ return getShotgunsPage(model, page); }
 
     @GetMapping("/airguns")
-    public String getAirgunPage(Model model){ ;
-        List<Weapon> airguns = (List<Weapon>) responseService.
-                getData("http://localhost:2033/server/catalog/get/airgun");
+    public String getAirgunsPage(Model model, String page){ ;
+        List<Weapon> airguns = (List<Weapon>) responseService.getData(responseService.
+                        getURL("http://localhost:2033/server/catalog/get/airgun_page/", page));
         model.addAttribute("airgunsList", airguns);
         return "airguns";
     }
+    @PostMapping("/getAirgunsPageButtons")
+    public String nextAirgunsPage(@RequestParam("currentPage") String page, Model model){ return getAirgunsPage(model, page); }
 
     @GetMapping("/ammo")
-    public String getAmmoPage(Model model){
-        List<Ammo> ammo = (List<Ammo>) responseService.
-                getData("http://localhost:2033/server/catalog/get/ammo");
+    public String getAmmoPage(Model model, String page){
+        List<Ammo> ammo = (List<Ammo>) responseService.getData(responseService.
+                getURL("http://localhost:2033/server/catalog/get/ammo_page/", page));
         model.addAttribute("ammoList", ammo);
         return "ammo";
     }
+    @PostMapping("/getAmmoPageButtons")
+    public String nextAmmoPage(@RequestParam("currentPage") String page, Model model){ return getAmmoPage(model, page); }
 
     @GetMapping("/targets")
-    public String getTargetPage(Model model){
-        List<Target> targets = (List<Target>) responseService.
-                getData("http://localhost:2033/server/catalog/get/target");
+    public String getTargetPage(Model model, String page){
+        List<Target> targets = (List<Target>) responseService.getData(responseService.
+                getURL("http://localhost:2033/server/catalog/get/target_page/", page));
         model.addAttribute("targetList", targets);
         return "targets";
     }
+    @PostMapping("/getTargetsPageButtons")
+    public String nextTargetPage(@RequestParam("currentPage") String page, Model model){ return getTargetPage(model, page); }
+
 }
