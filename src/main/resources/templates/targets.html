@@ -6,10 +6,17 @@
     <script th:src="@{/js/script.js}"></script>
 </head>
 <body th:style="'background: url(/img/background.jpg) no-repeat center center fixed;'">
-<p><img th:src="@{img/AmmuNationHeader.png}" th:class="image_header" alt=""/></p>
-<h1 th:align="center">Мишени</h1>
+<img th:src="@{img/AmmuNationHeader.png}" th:class="image_header" alt=""/>
+<div class="hat">
+    <div class="left">
+        <a class="button1" href="/">< На Главную</a>
+    </div>
+</div>
+<br>
+<br>
 <form th:object="${targetList}" method="get">
     <table th:align="center" th:id="products">
+        <caption>Мишени</caption>
         <th>Арктикул</th><th></th><th>Наименование</th><th>Описание</th><th>Размер, см.</th><th>Количество, шт.</th><th>Цена, ₽</th><th>Добавить в корзину</th>
         <tr th:each="target: ${targetList}">
             <td th:text="${target.id}"/>

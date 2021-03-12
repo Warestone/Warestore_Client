@@ -3,14 +3,12 @@ package org.warestore.service;
 import lombok.extern.java.Log;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.Cookie;
 import java.util.List;
 
 @Log
@@ -26,14 +24,18 @@ public class RequestService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public List<?> getOrPostData(String url){
-        log.info("Return data for '"+url+"'");
-        HttpEntity<String> entity = new HttpEntity<>("parameters", getHeaders());
+    public List<?> getOrPostData(String url, Cookie token, HttpMethod method, HttpEntity<?> httpEntity){
+        HttpEntity<?> entity;
+        if (httpEntity!=null)
+            entity = new HttpEntity<>(httpEntity.getBody(), getHeaders(token));
+        else
+            entity = new HttpEntity<>(getHeaders(token));
         ResponseEntity<List<?>> response = restTemplate.exchange(
                 url,
-                HttpMethod.GET,
+                method,
                 entity,
                 new ParameterizedTypeReference<>(){});
+        log.info("Return data for '"+url+"'");
         return response.getBody();
     }
 
@@ -42,12 +44,13 @@ public class RequestService {
         else return url+page;
     }
 
-    private HttpHeaders getHeaders(){
-        //get token
+    private HttpHeaders getHeaders(Cookie token){
         HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add("App-Verification",
                 passwordEncoder.encode(environment.getProperty("app.secret")));
-        //headers.add("Authorization","Bearer "+token);
+        if (token!=null)
+            headers.add("Authorization","Bearer "+token.getValue());
         return headers;
     }
 }

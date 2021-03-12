@@ -6,10 +6,17 @@
     <script th:src="@{/js/script.js}"></script>
 </head>
 <body th:style="'background: url(/img/background.jpg) no-repeat center center fixed;'">
-<p><img th:src="@{img/AmmuNationHeader.png}" th:class="image_header" alt=""/></p>
-<h1 th:align="center">Пневматическое оружие</h1>
+<img th:src="@{img/AmmuNationHeader.png}" th:class="image_header" alt=""/>
+<div class="hat">
+    <div class="left">
+        <a class="button1" href="/">< На Главную</a>
+    </div>
+</div>
+<br>
+<br>
 <form th:object="${airgunsList}" method="get">
     <table th:align="center" th:id="products">
+        <caption>Пневматическое оружие</caption>
         <th>Арктикул</th><th></th><th>Наименование</th><th>Описание</th><th>Калибр</th><th>Количество, шт.</th><th>Цена, ₽</th><th>Добавить в корзину</th>
         <tr th:each="airgun: ${airgunsList}">
             <td th:text="${airgun.id}"/>
