@@ -1,0 +1,34 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="Ru">
+<head>
+    <title>Warestore - Вход</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
+    <script th:src="@{/js/script.js}"></script>
+</head>
+<body th:style="'background: url(/img/background.jpg) no-repeat center center fixed;'">
+<img th:src="@{img/AmmuNationHeader.png}" th:class="image_header" alt=""/>
+<div class="center">
+    <div class="substrate_no_opacity">
+        <form th:object="${userAuthentication}" th:action="@{/authentication}" id="userAuthorizationForm" method="post">
+            <table class="font_size_text">
+                <tr>
+                    <td><p>Имя: </p></td>
+                    <td><input type="text" placeholder="Alex" th:field="*{username}" /></td>
+                </tr>
+                <tr>
+                    <td><p>Пароль: </p></td>
+                    <td><input type="text" placeholder="Reznov2033" th:field="*{password}"/></td>
+                </tr>
+            </table>
+            <br>
+            <a class="button1" onclick="authenticateUser()">Войти</a>
+            <a class="button1" href="/registration">Зарегистрироваться</a>
+            <a class="button1" href="/">Отмена</a>
+        </form>
+    </div>
+</div>
+<footer>
+    <div class="footer">&copyТимофеев Евгений, 2021 Grove Street</div>
+</footer>
+</body>
+</html>

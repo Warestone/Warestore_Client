@@ -83,6 +83,20 @@ caption {
     font-size: 35px;
 }
 
+.substrate_no_opacity {
+    padding-top: 5px;
+    padding-left: 5px;
+    background: #e95b24;
+    width: 45%;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.font_size_text{
+    font-size: 32px;
+    color: white;
+}
+
 .footer {
     position: fixed;
     left: 0; bottom: 0;
@@ -102,6 +116,11 @@ caption {
 }
 .left {
     margin-right: 86%;
+}
+
+.center{
+    margin-top: 10%;
+    margin-left: 35%;
 }
 
 .hat {

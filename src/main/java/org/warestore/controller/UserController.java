@@ -5,11 +5,15 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.warestore.model.User;
 import org.warestore.model.UserAuthentication;
 import org.warestore.service.RequestService;
+import org.warestore.service.TokenService;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -23,28 +27,45 @@ public class UserController {
     @Autowired
     private RequestService requestService;
 
-    @PostMapping(value = "/auth")
-    public String authorizeUser(@RequestBody UserAuthentication user, HttpServletResponse response){
+    @Autowired
+    private TokenService tokenService;
+
+    @PostMapping(value = "/authentication")
+    public String authorizeUser(@ModelAttribute UserAuthentication user, HttpServletResponse response){
         List<String> token = (List<String>) requestService.getOrPostData(
                 environment.getProperty("url.auth"),
                 null,
                 HttpMethod.POST,
-                new HttpEntity<UserAuthentication>(user)
+                new HttpEntity<>(user)
         );
-        if (token.size()!=0){
-            Cookie cookie = new Cookie("WarestoreToken",token.get(0));
-            cookie.setMaxAge(24*60*60); //one day
-            response.addCookie(cookie);
-        }
+        tokenService.addCookieToken(response,token);
+        // something do when no token == incorrect credentials
         return "redirect:/";
     }
 
-    @PostMapping(value = "/register")
-    public String registerUser(@RequestBody User user, HttpServletResponse response){
-        //user service -> add user
-        UserAuthentication userAuthentication = new UserAuthentication();
-        userAuthentication.setUsername(user.getUsername());
-        userAuthentication.setPassword(user.getPassword());
-        return authorizeUser(userAuthentication, response);
+    @GetMapping(value = "/authentication")
+    public String getAuthorizationUserPage(Model model){
+        model.addAttribute("userAuthentication", new UserAuthentication());
+        return "authentication";
+    }
+
+
+    @PostMapping(value = "/registration")
+    public String registerUser(@ModelAttribute User user, HttpServletResponse response){
+        List<String> token = (List<String>) requestService.getOrPostData(
+                environment.getProperty("url.auth"),
+                null,
+                HttpMethod.POST,
+                new HttpEntity<>(user)
+        );
+        tokenService.addCookieToken(response,token);
+        // something do when no token == incorrect credentials
+        return "redirect:/";
+    }
+
+    @GetMapping(value = "/registration")
+    public String getRegistrationUserPage(Model model){
+        model.addAttribute("userRegistration", new User());
+        return "registration";
     }
 }

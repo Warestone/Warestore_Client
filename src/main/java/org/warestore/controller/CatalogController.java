@@ -6,14 +6,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.warestore.model.Ammo;
-import org.warestore.model.Category;
-import org.warestore.model.Target;
-import org.warestore.model.Weapon;
+import org.warestore.model.*;
 import org.warestore.service.RequestService;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -32,6 +27,11 @@ public class CatalogController {
                         HttpMethod.GET,null
                 );
         model.addAttribute("categoriesList", categories);
+        if (token==null)
+            model.addAttribute("linkButton", new LinkButton("Вход/Регистрация","/authentication"));
+        else if (token.getValue()!=null && !token.getValue().equals(""))
+            model.addAttribute("linkButton", new LinkButton("Выйти из аккаунта","/"));
+        else model.addAttribute("linkButton", new LinkButton("Вход/Регистрация","/authentication"));
         return "index";
     }
 

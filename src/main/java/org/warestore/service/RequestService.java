@@ -30,13 +30,13 @@ public class RequestService {
             entity = new HttpEntity<>(httpEntity.getBody(), getHeaders(token));
         else
             entity = new HttpEntity<>(getHeaders(token));
-        ResponseEntity<List<?>> response = restTemplate.exchange(
+        HttpEntity<?> response = restTemplate.exchange(
                 url,
                 method,
                 entity,
                 new ParameterizedTypeReference<>(){});
         log.info("Return data for '"+url+"'");
-        return response.getBody();
+        return (List<?>) response.getBody();
     }
 
     public String getURL(String url, String page){
@@ -50,7 +50,8 @@ public class RequestService {
         headers.add("App-Verification",
                 passwordEncoder.encode(environment.getProperty("app.secret")));
         if (token!=null)
-            headers.add("Authorization","Bearer "+token.getValue());
+            if (token.getValue()!=null)
+                headers.add("Authorization","Bearer "+token.getValue());
         return headers;
     }
 }

@@ -75,3 +75,20 @@ function addToPurchase(){
     alert("Успешно добавлено в корзину.");
     document.location.reload();
 }
+
+function registerUser(){
+    document.getElementById("userRegistrationForm").submit();
+}
+
+function authenticateUser(){
+    document.getElementById("userAuthorizationForm").submit();
+}
+
+function logout(){
+    if (document.getElementById("logout").innerText=="Выйти из аккаунта")
+    {
+        document.cookie = "WarestoreToken="
+        alert("Вы успешно вышли из аккаунта.")
+    }
+    document.location.reload();
+}
