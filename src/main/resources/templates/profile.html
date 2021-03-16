@@ -1,0 +1,51 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="Ru">
+<head>
+    <title>Warestore - Профиль</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
+    <script th:src="@{/js/script.js}"></script>
+</head>
+<body th:style="'background: url(/img/background.jpg) no-repeat center center fixed;'">
+<img th:src="@{img/AmmuNationHeader.png}" th:class="image_header" alt=""/>
+<div class="hat">
+    <div class="left">
+        <a class="button1" href="/">< На Главную</a>
+    </div>
+</div>
+<br>
+<br>
+<form th:object="${userCredentials}" method="get">
+    <table th:id="products" th:align="center">
+        <tr>
+            <td><p>Имя: </p></td>
+            <td><p th:text="${userCredentials.username}"/></td>
+        </tr>
+        <tr>
+            <td><p>Email: </p></td>
+            <td><p th:text="${userCredentials.email}"/></td>
+        </tr>
+        <tr>
+            <td><p>Номер телефона: </p></td>
+            <td><p th:text="${userCredentials.phoneNumber}"/></td>
+        </tr>
+        <tr>
+            <td><p>Адрес: </p></td>
+            <td><p th:text="${userCredentials.address}"/></td>
+        </tr>
+    </table>
+</form>
+<br>
+<br>
+<br>
+<br>
+<footer>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="footer">&copyТимофеев Евгений, 2021 Grove Street</div>
+</footer>
+</body>
+</html>

@@ -24,19 +24,20 @@ public class RequestService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public List<?> getOrPostData(String url, Cookie token, HttpMethod method, HttpEntity<?> httpEntity){
+    public ResponseEntity<?> getOrPostData2(String url, Cookie token, HttpMethod method, HttpEntity<?> httpEntity){
         HttpEntity<?> entity;
         if (httpEntity!=null)
             entity = new HttpEntity<>(httpEntity.getBody(), getHeaders(token));
         else
             entity = new HttpEntity<>(getHeaders(token));
-        HttpEntity<?> response = restTemplate.exchange(
+
+        ResponseEntity<?> response = restTemplate.exchange(
                 url,
                 method,
                 entity,
                 new ParameterizedTypeReference<>(){});
         log.info("Return data for '"+url+"'");
-        return (List<?>) response.getBody();
+        return response;
     }
 
     public String getURL(String url, String page){

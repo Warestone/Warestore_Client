@@ -3,6 +3,8 @@ package org.warestore.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +24,14 @@ public class CatalogController {
 
     @GetMapping("/")
     public String getIndexPage(Model model, @CookieValue(name = "WarestoreToken",  required = false) Cookie token){
-        List<Category> categories = (List<Category>) requestService.
-                getOrPostData(environment.getProperty("url.categories"), token,
+        ResponseEntity<?> response = requestService.
+                getOrPostData2(environment.getProperty("url.categories"), token,
                         HttpMethod.GET,null
                 );
+        if (!checkStatusCode(response)){
+
+        }
+        List<Category> categories = (List<Category>) response.getBody();
         model.addAttribute("categoriesList", categories);
         if (token==null)
             model.addAttribute("linkButton", new LinkButton("Вход/Регистрация","/authentication"));
@@ -37,10 +43,14 @@ public class CatalogController {
 
     @GetMapping("/rifles")
     public String getRiflesPage(Model model, String page, @CookieValue(name = "WarestoreToken", required = false) Cookie token){
-        List<Weapon> rifles = (List<Weapon>) requestService.getOrPostData(requestService.
-                getURL(environment.getProperty("url.rifles"), page), token,
+        ResponseEntity<?> response = requestService.getOrPostData2(requestService.
+                        getURL(environment.getProperty("url.rifles"), page), token,
                 HttpMethod.GET,null
         );
+        if (!checkStatusCode(response)) {
+            // call error-page
+        }
+        List<Weapon> rifles = (List<Weapon>) response.getBody();
         model.addAttribute("riflesList", rifles);
         return "rifles";
     }
@@ -52,10 +62,14 @@ public class CatalogController {
 
     @GetMapping("/shotguns")
     public String getShotgunsPage(Model model, String page, @CookieValue(value = "WarestoreToken", required = false) Cookie token){
-        List<Weapon> shotguns = (List<Weapon>) requestService.getOrPostData(requestService.
-                getURL(environment.getProperty("url.shotguns"), page), token,
+        ResponseEntity<?> response =  requestService.getOrPostData2(requestService.
+                        getURL(environment.getProperty("url.shotguns"), page), token,
                 HttpMethod.GET,null
         );
+        if (!checkStatusCode(response)){
+            // call error-page
+        }
+        List<Weapon> shotguns = (List<Weapon>) response.getBody();
         model.addAttribute("shotgunsList", shotguns);
         return "shotguns";
     }
@@ -65,11 +79,15 @@ public class CatalogController {
     }
 
     @GetMapping("/airguns")
-    public String getAirgunsPage(Model model, String page, @CookieValue(value = "WarestoreToken", required = false) Cookie token){ ;
-        List<Weapon> airguns = (List<Weapon>) requestService.getOrPostData(requestService.
+    public String getAirgunsPage(Model model, String page, @CookieValue(value = "WarestoreToken", required = false) Cookie token){
+        ResponseEntity<?> response = requestService.getOrPostData2(requestService.
                         getURL(environment.getProperty("url.airguns"), page), token,
                 HttpMethod.GET,null
         );
+        if (!checkStatusCode(response)){
+            // call error-page
+        }
+        List<Weapon> airguns = (List<Weapon>) response.getBody();
         model.addAttribute("airgunsList", airguns);
         return "airguns";
     }
@@ -80,10 +98,14 @@ public class CatalogController {
 
     @GetMapping("/ammo")
     public String getAmmoPage(Model model, String page, @CookieValue(value = "WarestoreToken", required = false) Cookie token){
-        List<Ammo> ammo = (List<Ammo>) requestService.getOrPostData(requestService.
-                getURL(environment.getProperty("url.ammo"), page), token,
+        ResponseEntity<?> response = requestService.getOrPostData2(requestService.
+                        getURL(environment.getProperty("url.ammo"), page), token,
                 HttpMethod.GET,null
         );
+        if (!checkStatusCode(response)){
+            // call error-page
+        }
+        List<Ammo> ammo = (List<Ammo>) response.getBody();
         model.addAttribute("ammoList", ammo);
         return "ammo";
     }
@@ -94,16 +116,24 @@ public class CatalogController {
 
     @GetMapping("/targets")
     public String getTargetPage(Model model, String page, @CookieValue(value = "WarestoreToken", required = false) Cookie token){
-        List<Target> targets = (List<Target>) requestService.getOrPostData(requestService.
-                getURL(environment.getProperty("url.targets"), page), token,
+        ResponseEntity<?> response = requestService.getOrPostData2(requestService.
+                        getURL(environment.getProperty("url.targets"), page), token,
                 HttpMethod.GET,null
         );
+        if (!checkStatusCode(response)){
+            // call error-page
+        }
+        List<Target> targets = (List<Target>) response.getBody();
         model.addAttribute("targetList", targets);
         return "targets";
     }
     @PostMapping("/getTargetsPageButtons")
     public String nextTargetPage(@RequestParam("currentPage") String page, Model model, @CookieValue(value = "WarestoreToken", required = false) Cookie token){
         return getTargetPage(model, page, token);
+    }
+
+    private boolean checkStatusCode(ResponseEntity<?> response){
+        return response.getStatusCode() == HttpStatus.OK;
     }
 
 }
