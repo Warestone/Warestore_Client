@@ -76,14 +76,6 @@ function addToPurchase(){
     document.location.reload();
 }
 
-function registerUser(){
-    document.getElementById("userRegistrationForm").submit();
-}
-
-function authenticateUser(){
-    document.getElementById("userAuthorizationForm").submit();
-}
-
 function logout(){
     if (document.getElementById("logout").innerText=="Выйти из аккаунта")
     {

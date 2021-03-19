@@ -25,7 +25,7 @@ public class CatalogController {
     @GetMapping("/")
     public String getIndexPage(Model model, @CookieValue(name = "WarestoreToken",  required = false) Cookie token){
         ResponseEntity<?> response = requestService.
-                getOrPostData2(environment.getProperty("url.categories"), token,
+                getOrPostData(environment.getProperty("url.categories"), token,
                         HttpMethod.GET,null
                 );
         if (!checkStatusCode(response)){
@@ -43,7 +43,7 @@ public class CatalogController {
 
     @GetMapping("/rifles")
     public String getRiflesPage(Model model, String page, @CookieValue(name = "WarestoreToken", required = false) Cookie token){
-        ResponseEntity<?> response = requestService.getOrPostData2(requestService.
+        ResponseEntity<?> response = requestService.getOrPostData(requestService.
                         getURL(environment.getProperty("url.rifles"), page), token,
                 HttpMethod.GET,null
         );
@@ -62,7 +62,7 @@ public class CatalogController {
 
     @GetMapping("/shotguns")
     public String getShotgunsPage(Model model, String page, @CookieValue(value = "WarestoreToken", required = false) Cookie token){
-        ResponseEntity<?> response =  requestService.getOrPostData2(requestService.
+        ResponseEntity<?> response =  requestService.getOrPostData(requestService.
                         getURL(environment.getProperty("url.shotguns"), page), token,
                 HttpMethod.GET,null
         );
@@ -80,7 +80,7 @@ public class CatalogController {
 
     @GetMapping("/airguns")
     public String getAirgunsPage(Model model, String page, @CookieValue(value = "WarestoreToken", required = false) Cookie token){
-        ResponseEntity<?> response = requestService.getOrPostData2(requestService.
+        ResponseEntity<?> response = requestService.getOrPostData(requestService.
                         getURL(environment.getProperty("url.airguns"), page), token,
                 HttpMethod.GET,null
         );
@@ -98,7 +98,7 @@ public class CatalogController {
 
     @GetMapping("/ammo")
     public String getAmmoPage(Model model, String page, @CookieValue(value = "WarestoreToken", required = false) Cookie token){
-        ResponseEntity<?> response = requestService.getOrPostData2(requestService.
+        ResponseEntity<?> response = requestService.getOrPostData(requestService.
                         getURL(environment.getProperty("url.ammo"), page), token,
                 HttpMethod.GET,null
         );
@@ -116,7 +116,7 @@ public class CatalogController {
 
     @GetMapping("/targets")
     public String getTargetPage(Model model, String page, @CookieValue(value = "WarestoreToken", required = false) Cookie token){
-        ResponseEntity<?> response = requestService.getOrPostData2(requestService.
+        ResponseEntity<?> response = requestService.getOrPostData(requestService.
                         getURL(environment.getProperty("url.targets"), page), token,
                 HttpMethod.GET,null
         );

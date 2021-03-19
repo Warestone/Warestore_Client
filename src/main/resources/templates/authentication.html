@@ -13,15 +13,15 @@
             <table class="font_size_text">
                 <tr>
                     <td><p>Имя: </p></td>
-                    <td><input type="text" placeholder="Alex" th:field="*{username}" /></td>
+                    <td><input type="text" placeholder="victor" th:field="*{username}"  required minlength="5" maxlength="20" pattern="[a-z][a-z0-9]+" title="Имя должно начинаться с латинской буквы в нижнем регистре, состоять из латинских букв в нижнем регистре или цифр."/></td>
                 </tr>
                 <tr>
                     <td><p>Пароль: </p></td>
-                    <td><input type="text" placeholder="Reznov2033" th:field="*{password}"/></td>
+                    <td><input type="text" placeholder="reznov" th:field="*{password}" required minlength="5" maxlength="12"/></td>
                 </tr>
             </table>
             <br>
-            <a class="button1" onclick="authenticateUser()">Войти</a>
+            <input type="submit" class="button1" value="Войти">
             <a class="button1" href="/registration">Зарегистрироваться</a>
             <a class="button1" href="/">Отмена</a>
         </form>

@@ -20,6 +20,7 @@ import org.warestore.service.RequestService;
 import org.warestore.service.TokenService;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 @Controller
 public class UserController {
@@ -34,8 +35,8 @@ public class UserController {
     private TokenService tokenService;
 
     @PostMapping(value = "/authentication")
-    public String authorizeUser(@ModelAttribute UserAuthentication user, HttpServletResponse httpResponse){
-        ResponseEntity<?> response = requestService.getOrPostData2(
+    public String authorizeUser(@ModelAttribute @Valid UserAuthentication user, HttpServletResponse httpResponse){
+        ResponseEntity<?> response = requestService.getOrPostData(
                 environment.getProperty("url.auth"),
                 null,
                 HttpMethod.POST,
@@ -60,9 +61,9 @@ public class UserController {
 
 
     @PostMapping(value = "/registration")
-    public String registerUser(@ModelAttribute User user, HttpServletResponse httpResponse){
-        ResponseEntity<?> response = requestService.getOrPostData2(
-                environment.getProperty("url.auth"),
+    public String registerUser(@ModelAttribute @Valid User user, HttpServletResponse httpResponse){
+        ResponseEntity<?> response = requestService.getOrPostData(
+                environment.getProperty("url.register"),
                 null,
                 HttpMethod.POST,
                 new HttpEntity<>(user)
@@ -70,7 +71,7 @@ public class UserController {
         if (response.getStatusCode()!=HttpStatus.OK){
             // do when dont register user
         }
-        Token token = (Token) response.getBody();
+        Token token = tokenService.tokenMapper(response);
         tokenService.addCookieToken(httpResponse,token);
         return "redirect:/";
     }
@@ -84,7 +85,7 @@ public class UserController {
     @GetMapping(value = "/profile")
     public String getProfile(Model model, @CookieValue(name = "WarestoreToken") Cookie token){
         ResponseEntity<?> response = requestService.
-                getOrPostData2(environment.getProperty("url.user"), token,
+                getOrPostData(environment.getProperty("url.user"), token,
                         HttpMethod.GET,null
                 );
         User user = new ObjectMapper().convertValue(response.getBody(),User.class);

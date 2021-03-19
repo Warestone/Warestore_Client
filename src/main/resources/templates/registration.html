@@ -13,27 +13,27 @@
             <table class="font_size_text">
                 <tr>
                     <td><p>Имя: </p></td>
-                    <td><input type="text" placeholder="Alex" th:field="*{username}" /></td>
+                    <td><input type="text" placeholder="victor" th:field="*{username}" required minlength="5" maxlength="20" pattern="[a-z][a-z0-9]+" title="Имя должно начинаться с латинской буквы в нижнем регистре, состоять из латинских букв в нижнем регистре или цифр." /></td>
                 </tr>
                 <tr>
                     <td><p>Пароль: </p></td>
-                    <td><input type="text" placeholder="Reznov2033" th:field="*{password}" /></td>
+                    <td><input type="text" placeholder="reznov" th:field="*{password}" required minlength="5" maxlength="12"/></td>
                 </tr>
                 <tr>
                     <td><p>Email: </p></td>
-                    <td><input type="text" placeholder="bestemail@gmail.com" th:field="*{email}" /></td>
+                    <td><input type="text" placeholder="reznov@gmail.com" th:field="*{email}" required pattern="[a-z0-9\\.]{3,200}@[a-z0-9]{3,20}.?[a-z]{2,20}?"/></td>
                 </tr>
                 <tr>
                     <td><p>Номер телефона: </p></td>
-                    <td><input type="text" placeholder="8-800-555-35-35" th:field="*{phoneNumber}" /></td>
+                    <td><input type="text" placeholder="+7(800)555-35-35" th:field="*{phoneNumber}" required pattern="\+[0-9]\([0-9]{3}\)[0-9]{3}\-[0-9]{2}\-[0-9]{2}" title="Номер телефона должен быть в формате +X(XXX)-XXX-XX-XX"/></td>
                 </tr>
                 <tr>
                     <td><p>Адрес: </p></td>
-                    <td><input type="text" placeholder="Россия, Нижний Новгород, Проспект гагарина, 23/4" th:field="*{address}" /></td>
+                    <td><input type="text" placeholder="Россия, Нижний Новгород, Проспект гагарина, 23/4" th:field="*{address}" required minlength="10" maxlength="50"/></td>
                 </tr>
             </table>
             <br>
-            <a class="button1" onclick="registerUser()">Зарегистрироваться</a>
+            <input type="submit" class="button1" value="Зарегистрироваться">
             <a class="button1" href="/">Отмена</a>
         </form>
     </div>

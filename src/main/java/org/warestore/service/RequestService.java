@@ -24,7 +24,7 @@ public class RequestService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public ResponseEntity<?> getOrPostData2(String url, Cookie token, HttpMethod method, HttpEntity<?> httpEntity){
+    public ResponseEntity<?> getOrPostData(String url, Cookie token, HttpMethod method, HttpEntity<?> httpEntity){
         HttpEntity<?> entity;
         if (httpEntity!=null)
             entity = new HttpEntity<>(httpEntity.getBody(), getHeaders(token));
