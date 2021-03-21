@@ -45,6 +45,10 @@ public class RequestService {
         else return url+page;
     }
 
+    public boolean checkStatusCode(ResponseEntity<?> response){
+        return response.getStatusCode() == HttpStatus.OK;
+    }
+
     private HttpHeaders getHeaders(Cookie token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -55,4 +59,5 @@ public class RequestService {
                 headers.add("Authorization","Bearer "+token.getValue());
         return headers;
     }
+
 }

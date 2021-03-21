@@ -12,6 +12,7 @@ import org.warestore.model.*;
 import org.warestore.service.RequestService;
 import javax.servlet.http.Cookie;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class CatalogController {
@@ -28,7 +29,7 @@ public class CatalogController {
                 getOrPostData(environment.getProperty("url.categories"), token,
                         HttpMethod.GET,null
                 );
-        if (!checkStatusCode(response)){
+        if (!requestService.checkStatusCode(response)){
 
         }
         List<Category> categories = (List<Category>) response.getBody();
@@ -47,7 +48,7 @@ public class CatalogController {
                         getURL(environment.getProperty("url.rifles"), page), token,
                 HttpMethod.GET,null
         );
-        if (!checkStatusCode(response)) {
+        if (!requestService.checkStatusCode(response)) {
             // call error-page
         }
         List<Weapon> rifles = (List<Weapon>) response.getBody();
@@ -66,7 +67,7 @@ public class CatalogController {
                         getURL(environment.getProperty("url.shotguns"), page), token,
                 HttpMethod.GET,null
         );
-        if (!checkStatusCode(response)){
+        if (!requestService.checkStatusCode(response)){
             // call error-page
         }
         List<Weapon> shotguns = (List<Weapon>) response.getBody();
@@ -84,7 +85,7 @@ public class CatalogController {
                         getURL(environment.getProperty("url.airguns"), page), token,
                 HttpMethod.GET,null
         );
-        if (!checkStatusCode(response)){
+        if (!requestService.checkStatusCode(response)){
             // call error-page
         }
         List<Weapon> airguns = (List<Weapon>) response.getBody();
@@ -102,7 +103,7 @@ public class CatalogController {
                         getURL(environment.getProperty("url.ammo"), page), token,
                 HttpMethod.GET,null
         );
-        if (!checkStatusCode(response)){
+        if (!requestService.checkStatusCode(response)){
             // call error-page
         }
         List<Ammo> ammo = (List<Ammo>) response.getBody();
@@ -120,7 +121,7 @@ public class CatalogController {
                         getURL(environment.getProperty("url.targets"), page), token,
                 HttpMethod.GET,null
         );
-        if (!checkStatusCode(response)){
+        if (!requestService.checkStatusCode(response)){
             // call error-page
         }
         List<Target> targets = (List<Target>) response.getBody();
@@ -132,8 +133,8 @@ public class CatalogController {
         return getTargetPage(model, page, token);
     }
 
-    private boolean checkStatusCode(ResponseEntity<?> response){
-        return response.getStatusCode() == HttpStatus.OK;
+    @PostMapping("/order")
+    public void addToOrder(@RequestBody Map<String, Item> cart, @CookieValue(value = "WarestoreToken", required = true) Cookie token){
+        int vasr =0 ;
     }
-
 }
