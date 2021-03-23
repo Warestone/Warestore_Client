@@ -27,3 +27,12 @@ setInterval (
         fade_to_next();
     }, interval
 );
+
+function logout(){
+    if (document.getElementById("logout").innerText==="Выйти из аккаунта")
+    {
+        document.cookie = "WarestoreToken="
+        alert("Вы успешно вышли из аккаунта.")
+    }
+    document.location.reload();
+}

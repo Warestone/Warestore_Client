@@ -3,7 +3,7 @@
     <title>Warestore - Регистрация</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
-    <script th:src="@{/js/script.js}"></script>
+    <script th:src="@{/js/catalog.js}"></script>
 </head>
 <body th:style="'background: url(/img/background.jpg) no-repeat center center fixed;'">
 <img th:src="@{img/AmmuNationHeader.png}" th:class="image_header" alt=""/>
@@ -12,12 +12,24 @@
         <form th:object="${userRegistration}" th:action="@{/registration}" id="userRegistrationForm" method="post">
             <table class="font_size_text">
                 <tr>
-                    <td><p>Имя: </p></td>
+                    <td><p>Логин: </p></td>
                     <td><input type="text" placeholder="victor" th:field="*{username}" required minlength="5" maxlength="20" pattern="[a-z][a-z0-9]+" title="Имя должно начинаться с латинской буквы в нижнем регистре, состоять из латинских букв в нижнем регистре или цифр." /></td>
                 </tr>
                 <tr>
                     <td><p>Пароль: </p></td>
-                    <td><input type="text" placeholder="reznov" th:field="*{password}" required minlength="5" maxlength="12"/></td>
+                    <td><input type="text" placeholder="qwerty" th:field="*{password}" required minlength="5" maxlength="12"/></td>
+                </tr>
+                <tr>
+                    <td><p>Фамилия: </p></td>
+                    <td><input type="text" placeholder="Резнов" th:field="*{lastName}" required minlength="2" maxlength="20" pattern="[А-Я][а-я]+" title="Фамилия должна начинаться с русской буквы в верхнем регистре и состоять из русских букв в нижнем регистре." /></td>
+                </tr>
+                <tr>
+                    <td><p>Имя: </p></td>
+                    <td><input type="text" placeholder="Виктор" th:field="*{firstName}" required minlength="5" maxlength="20" pattern="[А-Я][а-я]+" title="Имя должно начинаться с русской буквы в верхнем регистре и состоять из русских букв в нижнем регистре." /></td>
+                </tr>
+                <tr>
+                    <td><p>Отчество: </p></td>
+                    <td><input type="text" placeholder="Колдович" th:field="*{patronymicName}" required minlength="5" maxlength="20" pattern="[А-Я][а-я]+" title="Отчество должно начинаться с русской буквы в верхнем регистре и состоять из русских букв в нижнем регистре." /></td>
                 </tr>
                 <tr>
                     <td><p>Email: </p></td>

@@ -3,7 +3,7 @@
     <title>Warestore - Вход</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
-    <script th:src="@{/js/script.js}"></script>
+    <script th:src="@{/js/catalog.js}"></script>
 </head>
 <body th:style="'background: url(/img/background.jpg) no-repeat center center fixed;'">
 <img th:src="@{img/AmmuNationHeader.png}" th:class="image_header" alt=""/>
@@ -12,8 +12,8 @@
         <form th:object="${userAuthentication}" th:action="@{/authentication}" id="userAuthorizationForm" method="post">
             <table class="font_size_text">
                 <tr>
-                    <td><p>Имя: </p></td>
-                    <td><input type="text" placeholder="victor" th:field="*{username}"  required minlength="5" maxlength="20" pattern="[a-z][a-z0-9]+" title="Имя должно начинаться с латинской буквы в нижнем регистре, состоять из латинских букв в нижнем регистре или цифр."/></td>
+                    <td><p>Логин: </p></td>
+                    <td><input type="text" placeholder="victor" th:field="*{username}"  required minlength="5" maxlength="20" pattern="[a-z][a-z0-9]+" title="Логин должен начинаться с латинской буквы в нижнем регистре, состоять из латинских букв в нижнем регистре или цифр."/></td>
                 </tr>
                 <tr>
                     <td><p>Пароль: </p></td>

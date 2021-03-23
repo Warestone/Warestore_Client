@@ -3,7 +3,6 @@
     <title>Warestore - Профиль</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
-    <script th:src="@{/js/script.js}"></script>
 </head>
 <body th:style="'background: url(/img/background.jpg) no-repeat center center fixed;'">
 <img th:src="@{img/AmmuNationHeader.png}" th:class="image_header" alt=""/>
@@ -17,8 +16,20 @@
 <form th:object="${userCredentials}" method="get">
     <table th:id="products" th:align="center">
         <tr>
-            <td><p>Имя: </p></td>
+            <td><p>Логин: </p></td>
             <td><p th:text="${userCredentials.username}"/></td>
+        </tr>
+        <tr>
+            <td><p>Фамилия: </p></td>
+            <td><p th:text="${userCredentials.lastName}"/></td>
+        </tr>
+        <tr>
+            <td><p>Имя: </p></td>
+            <td><p th:text="${userCredentials.firstName}"/></td>
+        </tr>
+        <tr>
+            <td><p>Отчество: </p></td>
+            <td><p th:text="${userCredentials.patronymicName}"/></td>
         </tr>
         <tr>
             <td><p>Email: </p></td>

@@ -2,6 +2,7 @@ package org.warestore.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import org.warestore.model.*;
 import org.warestore.service.RequestService;
 import javax.servlet.http.Cookie;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class CatalogController {
@@ -134,7 +135,17 @@ public class CatalogController {
     }
 
     @PostMapping("/order")
-    public void addToOrder(@RequestBody Map<String, Item> cart, @CookieValue(value = "WarestoreToken", required = true) Cookie token){
-        int vasr =0 ;
+    public void addToOrder(@RequestBody HashMap<Integer,Item> cart, @CookieValue(value = "WarestoreToken", required = true) Cookie token){
+        for (Item item:cart.values())
+            item.setQuantity(1000);
+        ResponseEntity<?> response = requestService.getOrPostData(
+                environment.getProperty("url.order"),
+                token,
+                HttpMethod.POST,
+                new HttpEntity<>(cart)
+        );
+        if (response.getStatusCode()!=HttpStatus.OK){
+            int v5 = 4;
+        }
     }
 }

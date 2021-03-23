@@ -93,7 +93,7 @@ function addToPurchase(){
             url: "/order",
             data: JSON.stringify(cartObject),
         });
-        alert("Успешно добавлено в корзину.");
+        alert("Покупка совершена. Подробности о заказе у Вас на почте.");
         document.location.reload();
     }
 }
@@ -110,15 +110,6 @@ function cartToObject(cart){
         }
     })
     return out;
-}
-
-function logout(){
-    if (document.getElementById("logout").innerText==="Выйти из аккаунта")
-    {
-        document.cookie = "WarestoreToken="
-        alert("Вы успешно вышли из аккаунта.")
-    }
-    document.location.reload();
 }
 
 function getCookie(name) {
