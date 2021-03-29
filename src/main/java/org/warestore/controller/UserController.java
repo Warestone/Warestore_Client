@@ -9,10 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.warestore.model.Order;
 import org.warestore.model.Token;
 import org.warestore.model.User;
 import org.warestore.model.UserAuthentication;
@@ -21,6 +19,8 @@ import org.warestore.service.TokenService;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -83,13 +83,28 @@ public class UserController {
     }
 
     @GetMapping(value = "/profile")
-    public String getProfile(Model model, @CookieValue(name = "WarestoreToken") Cookie token){
-        ResponseEntity<?> response = requestService.
+    public String getProfile(Model model, @CookieValue(name = "WarestoreToken") Cookie token, String page){
+        ResponseEntity<?> responseUser = requestService.
                 getOrPostData(environment.getProperty("url.user"), token,
                         HttpMethod.GET,null
                 );
-        User user = new ObjectMapper().convertValue(response.getBody(),User.class);
+        User user = new ObjectMapper().convertValue(responseUser.getBody(),User.class);
+
+        ResponseEntity<?> responseOrders = requestService.
+                getOrPostData(requestService.getURL(
+                        environment.getProperty("url.user.orders"), page), token,
+                        HttpMethod.GET,null
+                );
+        List<Order> orderList = new ArrayList<>();
+        if (responseUser.getStatusCode()==HttpStatus.OK)
+            orderList = (List<Order>) responseOrders.getBody();
+        model.addAttribute("orders",orderList);
         model.addAttribute("userCredentials", user);
         return "profile";
     }
+    @PostMapping("/getOrderPageButtonsUser")
+    public String nextRiflesPage(@RequestParam("currentPage") String page, Model model, @CookieValue(value = "WarestoreToken", required = true) Cookie token){
+        return getProfile(model, token, page);
+    }
+
 }

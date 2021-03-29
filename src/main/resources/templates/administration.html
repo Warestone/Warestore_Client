@@ -3,6 +3,7 @@
     <title>Warestore - Управление</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
+    <script th:src="@{/js/pagination.js}"></script>
 </head>
 <body th:style="'background: url(/img/background.jpg) no-repeat center center fixed;'">
 <img th:src="@{img/AmmuNationHeader.png}" th:class="image_header" alt=""/>
@@ -15,6 +16,28 @@
 <br>
 <br>
 <br>
+<br>
+<br>
+<br>
+<br>
+<table th:id="products" th:align="center">
+    <caption>Все заказы</caption>
+    <th>Номер заказа</th><th>Наименование товара</th><th>Количество, шт.</th><th>Цена, ₽</th><th>Дата</th><th>Статус</th><th>Покупатель</th>
+    <tr th:each="order: ${orders}">
+        <td th:text="${order.nameOrder}"/>
+        <td th:text="${order.name}"/>
+        <td th:text="${order.quantity}"/>
+        <td th:text="${order.price}"/>
+        <td th:text="${order.date}"/>
+        <td th:text="${order.status}"/>
+        <td th:text="${order.username}"/>
+    </tr>
+</table>
+<br>
+<form th:action="@{/getOrderPageButtonsAdmin}" method="post" th:align="center">
+    <input type="hidden" name="currentPage" id="currentPage" value="0">
+    <input type="submit" class="button1" value="< предыдущая страница" onclick="prevPage()"><input type="submit" class="button1" value="следующая страница >" onclick="nextPage()">
+</form>
 <footer>
     <br>
     <br>

@@ -135,9 +135,7 @@ public class CatalogController {
     }
 
     @PostMapping("/order")
-    public void addToOrder(@RequestBody HashMap<Integer,Item> cart, @CookieValue(value = "WarestoreToken", required = true) Cookie token){
-        for (Item item:cart.values())
-            item.setQuantity(1000);
+    public String addToOrder(@RequestBody HashMap<Integer,Item> cart, @CookieValue(value = "WarestoreToken", required = true) Cookie token, Model model){
         ResponseEntity<?> response = requestService.getOrPostData(
                 environment.getProperty("url.order"),
                 token,
@@ -145,7 +143,14 @@ public class CatalogController {
                 new HttpEntity<>(cart)
         );
         if (response.getStatusCode()!=HttpStatus.OK){
-            int v5 = 4;
+            return response(model,new ResponseHTML("Заказ", "Удалось"));
         }
+        return response(model,new ResponseHTML("Заказ", "Не удалось"));
+    }
+
+    @GetMapping("/response")
+    public String response(Model model, ResponseHTML responseHTML){
+        model.addAttribute("response", responseHTML);
+        return "response";
     }
 }

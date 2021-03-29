@@ -11,7 +11,7 @@
             <div class="right">
                 <a class="button1" id="logout" th:object="${linkButton}" th:text="${linkButton.text}" th:href="${linkButton.url}" onclick="logout()"/>
                 <a class="button1" href="/profile">Профиль</a>
-                <a class="button1">Управление</a>
+                <a class="button1" href="/administration">Управление</a>
             </div>
         </div>
         <br>
@@ -21,15 +21,15 @@
         <br>
         <div class="index_body">
             <div class="div_width_50">
-            <div class="substrate">
-                <form th:object="${categoriesList}" method="get">
-                    <table th:id="categories_table">
-                        <tr th:each="category: ${categoriesList}">
-                            <td><a th:class="category" th:text="${category.name}" th:href="${category.url}"/></td>
-                        </tr>
-                    </table>
-                </form>
-            </div>
+                <div class="substrate">
+                    <form th:object="${categoriesList}" method="get">
+                        <table th:id="categories_table">
+                            <tr th:each="category: ${categoriesList}">
+                                <td><a th:class="category" th:text="${category.name}" th:href="${category.url}"/></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
             </div>
             <div>
                 <img class="index_image" th:src="@{img/wep_1.jpg}" id="image_1" style="position: absolute;" width="700px" height="350px"/>

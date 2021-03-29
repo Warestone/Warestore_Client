@@ -3,6 +3,7 @@
     <title>Warestore - Профиль</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
+    <script th:src="@{/js/pagination.js}"></script>
 </head>
 <body th:style="'background: url(/img/background.jpg) no-repeat center center fixed;'">
 <img th:src="@{img/AmmuNationHeader.png}" th:class="image_header" alt=""/>
@@ -11,44 +12,69 @@
         <a class="button1" href="/">< На Главную</a>
     </div>
 </div>
+<div class="substrate_no_opacity_profile">
+    <form th:object="${userCredentials}" method="get">
+        <br>
+        <table class="font_size_text" th:align="center">
+            <tr>
+                <td><p>Логин: </p></td>
+                <td><p th:text="${userCredentials.username}"/></td>
+            </tr>
+            <tr>
+                <td><p>Фамилия: </p></td>
+                <td><p th:text="${userCredentials.lastName}"/></td>
+            </tr>
+            <tr>
+                <td><p>Имя: </p></td>
+                <td><p th:text="${userCredentials.firstName}"/></td>
+            </tr>
+            <tr>
+                <td><p>Отчество: </p></td>
+                <td><p th:text="${userCredentials.patronymicName}"/></td>
+            </tr>
+            <tr>
+                <td><p>Email: </p></td>
+                <td><p th:text="${userCredentials.email}"/></td>
+            </tr>
+            <tr>
+                <td><p>Номер телефона: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></td>
+                <td><p th:text="${userCredentials.phoneNumber}"/></td>
+            </tr>
+            <tr>
+                <td><p>Адрес: </p></td>
+                <td><p th:text="${userCredentials.address}"/></td>
+            </tr>
+        </table>
+        <br>
+    </form>
+</div>
 <br>
 <br>
-<form th:object="${userCredentials}" method="get">
-    <table th:id="products" th:align="center">
-        <tr>
-            <td><p>Логин: </p></td>
-            <td><p th:text="${userCredentials.username}"/></td>
-        </tr>
-        <tr>
-            <td><p>Фамилия: </p></td>
-            <td><p th:text="${userCredentials.lastName}"/></td>
-        </tr>
-        <tr>
-            <td><p>Имя: </p></td>
-            <td><p th:text="${userCredentials.firstName}"/></td>
-        </tr>
-        <tr>
-            <td><p>Отчество: </p></td>
-            <td><p th:text="${userCredentials.patronymicName}"/></td>
-        </tr>
-        <tr>
-            <td><p>Email: </p></td>
-            <td><p th:text="${userCredentials.email}"/></td>
-        </tr>
-        <tr>
-            <td><p>Номер телефона: </p></td>
-            <td><p th:text="${userCredentials.phoneNumber}"/></td>
-        </tr>
-        <tr>
-            <td><p>Адрес: </p></td>
-            <td><p th:text="${userCredentials.address}"/></td>
-        </tr>
-    </table>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<table th:id="products" th:align="center">
+    <caption>Заказы</caption>
+    <th>Номер заказа</th><th>Наименование товара</th><th>Количество, шт.</th><th>Цена, ₽</th><th>Дата</th><th>Статус</th>
+    <tr th:each="order: ${orders}">
+        <td th:text="${order.nameOrder}"/>
+        <td th:text="${order.name}"/>
+        <td th:text="${order.quantity}"/>
+        <td th:text="${order.price}"/>
+        <td th:text="${order.date}"/>
+        <td th:text="${order.status}"/>
+    </tr>
+</table>
+<br>
+<form th:action="@{/getOrderPageButtonsUser}" method="post" th:align="center">
+    <input type="hidden" name="currentPage" id="currentPage" value="0">
+    <input type="submit" class="button1" value="< предыдущая страница" onclick="prevPage()"><input type="submit" class="button1" value="следующая страница >" onclick="nextPage()">
 </form>
-<br>
-<br>
-<br>
-<br>
 <footer>
     <br>
     <br>

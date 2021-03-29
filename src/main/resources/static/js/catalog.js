@@ -71,15 +71,6 @@ function createProductObject(quantity, price, name, id){
     };
 }
 
-function prevPage(){
-    let currentPage = document.getElementById("currentPage");
-    if (currentPage.value>0)
-        currentPage.value -= 1
-}
-function nextPage(){
-    document.getElementById("currentPage").value+=1;
-}
-
 function addToPurchase(){
     let cookie = getCookie("WarestoreToken")
     if (cookie===undefined || cookie==="")
@@ -101,13 +92,7 @@ function addToPurchase(){
 function cartToObject(cart){
     const out = Object.create(null)
     cart.forEach((value, key) => {
-        if (value instanceof Map) {
-            out[key] = value
-
-        }
-        else {
-            out[key] = value
-        }
+        out[key] = value
     })
     return out;
 }
@@ -132,10 +117,6 @@ function getCartFromCookie(){
     let cookieCart = getCookie("WarestoreCart")
     if (cookieCart!==undefined)
         if (cookieCart!=="")
-        {
-            console.log(getCookie("WarestoreCart"))
-            const out = Object.create(JSON.parse(getCookie("WarestoreCart")))
             return new Map(JSON.parse(getCookie("WarestoreCart")))
-        }
     return new Map()
 }

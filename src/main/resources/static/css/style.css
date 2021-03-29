@@ -94,6 +94,17 @@ caption {
     border-radius: 10px;
 }
 
+.substrate_no_opacity_profile {
+    margin-top: 5%;
+    margin-left: 25%;
+    padding-top: 5px;
+    padding-left: 5px;
+    background: #e95b24;
+    width: 52%;
+    text-align: center;
+    border-radius: 10px;
+}
+
 .font_size_text{
     font-size: 32px;
     color: white;

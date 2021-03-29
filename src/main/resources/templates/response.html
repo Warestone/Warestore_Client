@@ -1,0 +1,35 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="Ru">
+<head>
+    <title th:text="${response.title}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
+</head>
+<body th:style="'background: url(/img/background.jpg) no-repeat center center fixed;'">
+<img th:src="@{img/AmmuNationHeader.png}" th:class="image_header" alt=""/>
+<div class="hat">
+    <div class="left">
+        <a class="button1" href="/">< На Главную</a>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="center">
+    <div class="substrate">
+        <p th:text="${response.text}"></p>
+    </div>
+</div>
+<footer>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="footer">&copyТимофеев Евгений, 2021 Grove Street</div>
+</footer>
+</body>
+</html>
