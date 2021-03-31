@@ -110,6 +110,20 @@ caption {
     color: white;
 }
 
+.colorWhite{
+    color: white;
+}
+
+.edit_profile{
+    margin-left: 36%;
+    padding-top: 5px;
+    padding-left: 5px;
+    background: #e95b24;
+    width: 30%;
+    text-align: center;
+    border-radius: 10px;
+}
+
 .footer {
     position: fixed;
     left: 0; bottom: 0;

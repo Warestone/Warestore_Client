@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.warestore.model.*;
 import org.warestore.service.RequestService;
 import javax.servlet.http.Cookie;
@@ -24,37 +26,47 @@ public class CatalogController {
     @Autowired
     private RequestService requestService;
 
+    @Autowired
+    private ResponseController responseController;
+
     @GetMapping("/")
     public String getIndexPage(Model model, @CookieValue(name = "WarestoreToken",  required = false) Cookie token){
-        ResponseEntity<?> response = requestService.
-                getOrPostData(environment.getProperty("url.categories"), token,
-                        HttpMethod.GET,null
-                );
-        if (!requestService.checkStatusCode(response)){
+        try {
+            ResponseEntity<?> response = requestService.
+                    getOrPostData(environment.getProperty("url.categories"), token,
+                            HttpMethod.GET, null
+                    );
+            List<Category> categories = (List<Category>) response.getBody();
+            model.addAttribute("categoriesList", categories);
 
+            if (token==null)
+                model.addAttribute("linkButton", new LinkButton("Вход/Регистрация","/authentication"));
+            else if (token.getValue()!=null && !token.getValue().equals(""))
+                model.addAttribute("linkButton", new LinkButton("Выйти из аккаунта","/"));
+            else model.addAttribute("linkButton", new LinkButton("Вход/Регистрация","/authentication"));
+            return "index";
         }
-        List<Category> categories = (List<Category>) response.getBody();
-        model.addAttribute("categoriesList", categories);
-        if (token==null)
-            model.addAttribute("linkButton", new LinkButton("Вход/Регистрация","/authentication"));
-        else if (token.getValue()!=null && !token.getValue().equals(""))
-            model.addAttribute("linkButton", new LinkButton("Выйти из аккаунта","/"));
-        else model.addAttribute("linkButton", new LinkButton("Вход/Регистрация","/authentication"));
-        return "index";
+        catch (ResourceAccessException ignored){
+            return responseController.response(model,
+                    new ResponseHTML("Warestore - Техническое обслуживание", "Ресурс временно недоступен :(\nСервер на обслуживании."));
+        }
     }
 
     @GetMapping("/rifles")
     public String getRiflesPage(Model model, String page, @CookieValue(name = "WarestoreToken", required = false) Cookie token){
-        ResponseEntity<?> response = requestService.getOrPostData(requestService.
-                        getURL(environment.getProperty("url.rifles"), page), token,
-                HttpMethod.GET,null
-        );
-        if (!requestService.checkStatusCode(response)) {
-            // call error-page
+        try {
+            ResponseEntity<?> response = requestService.getOrPostData(requestService.
+                            getURL(environment.getProperty("url.rifles"), page), token,
+                    HttpMethod.GET, null
+            );
+            List<Weapon> rifles = (List<Weapon>) response.getBody();
+            model.addAttribute("riflesList", rifles);
+            return "rifles";
         }
-        List<Weapon> rifles = (List<Weapon>) response.getBody();
-        model.addAttribute("riflesList", rifles);
-        return "rifles";
+        catch (ResourceAccessException ignored){
+            return responseController.response(model,
+                    new ResponseHTML("Warestore - Техническое обслуживание", "Ресурс временно недоступен :(\nСервер на обслуживании."));
+        }
     }
     @PostMapping("/getRiflesPageButtons")
     public String nextRiflesPage(@RequestParam("currentPage") String page, Model model, @CookieValue(value = "WarestoreToken", required = false) Cookie token){
@@ -64,16 +76,19 @@ public class CatalogController {
 
     @GetMapping("/shotguns")
     public String getShotgunsPage(Model model, String page, @CookieValue(value = "WarestoreToken", required = false) Cookie token){
-        ResponseEntity<?> response =  requestService.getOrPostData(requestService.
-                        getURL(environment.getProperty("url.shotguns"), page), token,
-                HttpMethod.GET,null
-        );
-        if (!requestService.checkStatusCode(response)){
-            // call error-page
+        try {
+            ResponseEntity<?> response = requestService.getOrPostData(requestService.
+                            getURL(environment.getProperty("url.shotguns"), page), token,
+                    HttpMethod.GET, null
+            );
+            List<Weapon> shotguns = (List<Weapon>) response.getBody();
+            model.addAttribute("shotgunsList", shotguns);
+            return "shotguns";
         }
-        List<Weapon> shotguns = (List<Weapon>) response.getBody();
-        model.addAttribute("shotgunsList", shotguns);
-        return "shotguns";
+        catch (ResourceAccessException ignored){
+            return responseController.response(model,
+                    new ResponseHTML("Warestore - Техническое обслуживание", "Ресурс временно недоступен :(\nСервер на обслуживании."));
+        }
     }
     @PostMapping("/getShotgunsPageButtons")
     public String nextShotgunPage(@RequestParam("currentPage") String page, Model model, @CookieValue(value = "WarestoreToken", required = false) Cookie token){
@@ -82,16 +97,19 @@ public class CatalogController {
 
     @GetMapping("/airguns")
     public String getAirgunsPage(Model model, String page, @CookieValue(value = "WarestoreToken", required = false) Cookie token){
-        ResponseEntity<?> response = requestService.getOrPostData(requestService.
-                        getURL(environment.getProperty("url.airguns"), page), token,
-                HttpMethod.GET,null
-        );
-        if (!requestService.checkStatusCode(response)){
-            // call error-page
+        try{
+            ResponseEntity<?> response = requestService.getOrPostData(requestService.
+                            getURL(environment.getProperty("url.airguns"), page), token,
+                    HttpMethod.GET,null
+            );
+            List<Weapon> airguns = (List<Weapon>) response.getBody();
+            model.addAttribute("airgunsList", airguns);
+            return "airguns";
         }
-        List<Weapon> airguns = (List<Weapon>) response.getBody();
-        model.addAttribute("airgunsList", airguns);
-        return "airguns";
+        catch (ResourceAccessException ignored){
+            return responseController.response(model,
+                    new ResponseHTML("Warestore - Техническое обслуживание", "Ресурс временно недоступен :(\nСервер на обслуживании."));
+        }
     }
     @PostMapping("/getAirgunsPageButtons")
     public String nextAirgunsPage(@RequestParam("currentPage") String page, Model model, @CookieValue(value = "WarestoreToken", required = false) Cookie token){
@@ -100,16 +118,20 @@ public class CatalogController {
 
     @GetMapping("/ammo")
     public String getAmmoPage(Model model, String page, @CookieValue(value = "WarestoreToken", required = false) Cookie token){
-        ResponseEntity<?> response = requestService.getOrPostData(requestService.
-                        getURL(environment.getProperty("url.ammo"), page), token,
-                HttpMethod.GET,null
-        );
-        if (!requestService.checkStatusCode(response)){
-            // call error-page
+        try {
+            ResponseEntity<?> response = requestService.getOrPostData(requestService.
+                            getURL(environment.getProperty("url.ammo"), page), token,
+                    HttpMethod.GET, null
+            );
+            List<Ammo> ammo = (List<Ammo>) response.getBody();
+            model.addAttribute("ammoList", ammo);
+            return "ammo";
         }
-        List<Ammo> ammo = (List<Ammo>) response.getBody();
-        model.addAttribute("ammoList", ammo);
-        return "ammo";
+        catch (ResourceAccessException ignored){
+            return responseController.response(model,
+                    new ResponseHTML("Warestore - Техническое обслуживание", "Ресурс временно недоступен :(\nСервер на обслуживании."));
+        }
+
     }
     @PostMapping("/getAmmoPageButtons")
     public String nextAmmoPage(@RequestParam("currentPage") String page, Model model, @CookieValue(value = "WarestoreToken", required = false) Cookie token){
@@ -118,16 +140,19 @@ public class CatalogController {
 
     @GetMapping("/targets")
     public String getTargetPage(Model model, String page, @CookieValue(value = "WarestoreToken", required = false) Cookie token){
-        ResponseEntity<?> response = requestService.getOrPostData(requestService.
-                        getURL(environment.getProperty("url.targets"), page), token,
-                HttpMethod.GET,null
-        );
-        if (!requestService.checkStatusCode(response)){
-            // call error-page
+        try {
+            ResponseEntity<?> response = requestService.getOrPostData(requestService.
+                            getURL(environment.getProperty("url.targets"), page), token,
+                    HttpMethod.GET, null
+            );
+            List<Target> targets = (List<Target>) response.getBody();
+            model.addAttribute("targetList", targets);
+            return "targets";
         }
-        List<Target> targets = (List<Target>) response.getBody();
-        model.addAttribute("targetList", targets);
-        return "targets";
+        catch (ResourceAccessException ignored){
+            return responseController.response(model,
+                    new ResponseHTML("Warestore - Техническое обслуживание", "Ресурс временно недоступен :(\nСервер на обслуживании."));
+        }
     }
     @PostMapping("/getTargetsPageButtons")
     public String nextTargetPage(@RequestParam("currentPage") String page, Model model, @CookieValue(value = "WarestoreToken", required = false) Cookie token){
@@ -135,22 +160,15 @@ public class CatalogController {
     }
 
     @PostMapping("/order")
-    public String addToOrder(@RequestBody HashMap<Integer,Item> cart, @CookieValue(value = "WarestoreToken", required = true) Cookie token, Model model){
+    public ResponseEntity<?> addToOrder(@RequestBody HashMap<Integer,Item> cart, @CookieValue(value = "WarestoreToken", required = true) Cookie token, Model model){
         ResponseEntity<?> response = requestService.getOrPostData(
                 environment.getProperty("url.order"),
                 token,
                 HttpMethod.POST,
                 new HttpEntity<>(cart)
         );
-        if (response.getStatusCode()!=HttpStatus.OK){
-            return response(model,new ResponseHTML("Заказ", "Удалось"));
-        }
-        return response(model,new ResponseHTML("Заказ", "Не удалось"));
-    }
-
-    @GetMapping("/response")
-    public String response(Model model, ResponseHTML responseHTML){
-        model.addAttribute("response", responseHTML);
-        return "response";
+        if (response.getStatusCode()!=HttpStatus.OK)
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
+        else return new ResponseEntity<>(HttpStatus.OK);
     }
 }

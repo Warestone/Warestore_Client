@@ -80,12 +80,19 @@ function addToPurchase(){
         const cartObject = cartToObject(cart)
         $.ajax({
             type: "POST",
+            async: "false",
             contentType: "application/json; charset=utf-8",
             url: "/order",
             data: JSON.stringify(cartObject),
+            success: (function () {
+                alert("Покупка совершена! Подробности о заказе у Вас на почте.");
+                document.location.reload();
+            }),
+            error: function () {
+                alert("Покупка не удалась!\nНедостаточно товара на складе!");
+                document.location.reload();
+            }
         });
-        alert("Покупка совершена. Подробности о заказе у Вас на почте.");
-        document.location.reload();
     }
 }
 
