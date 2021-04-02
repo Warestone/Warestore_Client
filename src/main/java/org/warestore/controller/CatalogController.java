@@ -46,7 +46,7 @@ public class CatalogController {
             else model.addAttribute("linkButton", new LinkButton("Вход/Регистрация","/authentication"));
             return "index";
         }
-        catch (ResourceAccessException ignored){
+        catch (ResourceAccessException | HttpClientErrorException.Conflict ignored){
             return responseController.response(model,
                     new ResponseHTML("Warestore - Техническое обслуживание", "Ресурс временно недоступен :(\nСервер на обслуживании."));
         }
@@ -63,7 +63,7 @@ public class CatalogController {
             model.addAttribute("riflesList", rifles);
             return "rifles";
         }
-        catch (ResourceAccessException ignored){
+        catch (ResourceAccessException | HttpClientErrorException.Conflict ignored){
             return responseController.response(model,
                     new ResponseHTML("Warestore - Техническое обслуживание", "Ресурс временно недоступен :(\nСервер на обслуживании."));
         }
@@ -85,7 +85,7 @@ public class CatalogController {
             model.addAttribute("shotgunsList", shotguns);
             return "shotguns";
         }
-        catch (ResourceAccessException ignored){
+        catch (ResourceAccessException | HttpClientErrorException.Conflict ignored){
             return responseController.response(model,
                     new ResponseHTML("Warestore - Техническое обслуживание", "Ресурс временно недоступен :(\nСервер на обслуживании."));
         }
@@ -106,7 +106,7 @@ public class CatalogController {
             model.addAttribute("airgunsList", airguns);
             return "airguns";
         }
-        catch (ResourceAccessException ignored){
+        catch (ResourceAccessException | HttpClientErrorException.Conflict ignored){
             return responseController.response(model,
                     new ResponseHTML("Warestore - Техническое обслуживание", "Ресурс временно недоступен :(\nСервер на обслуживании."));
         }
@@ -127,7 +127,7 @@ public class CatalogController {
             model.addAttribute("ammoList", ammo);
             return "ammo";
         }
-        catch (ResourceAccessException ignored){
+        catch (ResourceAccessException | HttpClientErrorException.Conflict ignored){
             return responseController.response(model,
                     new ResponseHTML("Warestore - Техническое обслуживание", "Ресурс временно недоступен :(\nСервер на обслуживании."));
         }
@@ -149,7 +149,7 @@ public class CatalogController {
             model.addAttribute("targetList", targets);
             return "targets";
         }
-        catch (ResourceAccessException ignored){
+        catch (ResourceAccessException | HttpClientErrorException.Conflict ignored){
             return responseController.response(model,
                     new ResponseHTML("Warestore - Техническое обслуживание", "Ресурс временно недоступен :(\nСервер на обслуживании."));
         }

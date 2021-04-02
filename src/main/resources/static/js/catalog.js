@@ -76,6 +76,7 @@ function addToPurchase(){
     if (cookie===undefined || cookie==="")
         alert("Для совершения покупок авторизуйтесь или зарегистрируйтесь в системе.")
     else {
+        document.getElementById("purchaseButton").style.display="none"
         document.cookie = "WarestoreCart=; Max-Age=-99999999;";
         const cartObject = cartToObject(cart)
         $.ajax({

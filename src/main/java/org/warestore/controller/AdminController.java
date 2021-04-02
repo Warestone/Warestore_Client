@@ -43,7 +43,7 @@ public class AdminController {
             return responseController.response(model,
                     new ResponseHTML("Warestore - Доступ ограничен", "Пожалуйста, авторизуйтесь для доступа в защищённую область."));
         }
-        catch (ResourceAccessException ignored){
+        catch (ResourceAccessException | HttpClientErrorException.Conflict ignored){
             return responseController.response(model,
                     new ResponseHTML("Warestore - Техническое обслуживание", "Ресурс временно недоступен :(\nСервер на обслуживании."));
         }

@@ -48,7 +48,7 @@ public class UserController {
             tokenService.addCookieToken(httpResponse, tokenService.tokenMapper(response));
             return "redirect:/";
         }
-        catch (ResourceAccessException ignored){
+        catch (ResourceAccessException | HttpClientErrorException.Conflict ignored){
             return responseController.response(model,
                     new ResponseHTML("Warestore - Техническое обслуживание", "Ресурс временно недоступен :(\nСервер на обслуживании."));
         }
@@ -69,6 +69,31 @@ public class UserController {
         return "authentication";
     }
 
+    @PostMapping(value = "/editProfile")
+    public String editUserProfile(@ModelAttribute @Valid User user, Model model, @CookieValue(name = "WarestoreToken") Cookie token){
+        try {
+            ResponseEntity<?> response = requestService.getOrPostData(
+                    environment.getProperty("url.user.edit"),
+                    token,
+                    HttpMethod.POST,
+                    new HttpEntity<>(user)
+            );
+            if (response.getStatusCode()==HttpStatus.OK)
+                return responseController.response(model,
+                        new ResponseHTML("Warestore - Изменение информации", "Ваш профиль был успешно изменён!"));
+            else return  responseController.response(model,
+                    new ResponseHTML("Warestore - Изменение информации", "Информация в профиле не была изменена.\nПопробуйте позже."));
+        }
+        catch (ResourceAccessException | HttpClientErrorException.Conflict ignored){
+            return responseController.response(model,
+                    new ResponseHTML("Warestore - Техническое обслуживание", "Ресурс временно недоступен :(\nСервер на обслуживании."));
+        }
+        catch (HttpClientErrorException.NotAcceptable | HttpClientErrorException.NotFound ignored){
+            return responseController.response(model,
+                    new ResponseHTML("Warestore - Изменение информации", "Информация в профиле не была изменена.\nПопробуйте позже."));
+        }
+    }
+
 
     @PostMapping(value = "/registration")
     public String registerUser(@ModelAttribute @Valid User user, HttpServletResponse httpResponse, Model model){
@@ -83,13 +108,38 @@ public class UserController {
             tokenService.addCookieToken(httpResponse, token);
             return "redirect:/";
         }
-        catch (ResourceAccessException ignored){
+        catch (ResourceAccessException | HttpClientErrorException.Conflict ignored){
             return responseController.response(model,
                     new ResponseHTML("Warestore - Техническое обслуживание", "Ресурс временно недоступен :(\nСервер на обслуживании."));
         }
         catch (HttpClientErrorException.NotAcceptable ignored){
             return responseController.response(model,
                     new ResponseHTML("Warestore - Регистрация", "Зарегистрировать нового пользователя не удалось, попробуйте позже."));
+        }
+    }
+
+    @PostMapping(value = "/editPassword")
+    public String editPassword(@ModelAttribute @Valid EditPassword editPassword, Model model, @CookieValue(name = "WarestoreToken") Cookie token){
+        try {
+            ResponseEntity<?> response = requestService.getOrPostData(
+                    environment.getProperty("url.user.password"),
+                    token,
+                    HttpMethod.POST,
+                    new HttpEntity<>(editPassword)
+            );
+            if (response.getStatusCode()==HttpStatus.OK)
+                return responseController.response(model,
+                        new ResponseHTML("Warestore - Изменение информации", "Ваш пароль был успешно изменён!"));
+            else return  responseController.response(model,
+                    new ResponseHTML("Warestore - Изменение информации", "Ваш пароль не был изменён.\nПопробуйте позже."));
+        }
+        catch (ResourceAccessException | HttpClientErrorException.Conflict ignored){
+            return responseController.response(model,
+                    new ResponseHTML("Warestore - Техническое обслуживание", "Ресурс временно недоступен :(\nСервер на обслуживании."));
+        }
+        catch (HttpClientErrorException.NotAcceptable | HttpClientErrorException.NotFound ignored){
+            return responseController.response(model,
+                    new ResponseHTML("Warestore - Изменение информации", "Ваш пароль не был изменён.\nПопробуйте позже."));
         }
     }
 
@@ -118,13 +168,15 @@ public class UserController {
                 orderList = (List<Order>) responseOrders.getBody();
             model.addAttribute("orders", orderList);
             model.addAttribute("userCredentials", user);
+            model.addAttribute("editUser", new User());
+            model.addAttribute("editPassword", new EditPassword());
             return "profile";
         }
         catch (HttpClientErrorException.Forbidden ignored){
             return responseController.response(model,
                     new ResponseHTML("Warestore - Доступ ограничен", "Пожалуйста, авторизуйтесь для доступа в защищённую область."));
         }
-        catch (ResourceAccessException ignored){
+        catch (ResourceAccessException | HttpClientErrorException.Conflict ignored){
             return responseController.response(model,
                     new ResponseHTML("Warestore - Техническое обслуживание", "Ресурс временно недоступен :(\nСервер на обслуживании."));
         }
