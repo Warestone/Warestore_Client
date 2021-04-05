@@ -26,13 +26,10 @@ public class UserController {
 
     @Autowired
     Environment environment;
-
     @Autowired
     private RequestService requestService;
-
     @Autowired
     private TokenService tokenService;
-
     @Autowired
     private ResponseController responseController;
 
@@ -182,7 +179,7 @@ public class UserController {
         }
     }
     @PostMapping("/getOrderPageButtonsUser")
-    public String nextRiflesPage(@RequestParam("currentPage") String page, Model model, @CookieValue(value = "WarestoreToken", required = true) Cookie token){
+    public String nextOrdersPage(@RequestParam("currentPage") String page, Model model, @CookieValue(value = "WarestoreToken", required = true) Cookie token){
         return getProfile(model, token, page);
     }
 

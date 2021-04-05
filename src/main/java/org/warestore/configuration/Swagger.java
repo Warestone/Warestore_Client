@@ -28,7 +28,7 @@ public class Swagger {
         return new ApiInfoBuilder()
                 .title("Spring MVC REST application.")
                 .description("Weapon shop with postgreSQL.")
-                .version("1.0.0")
+                .version("2.0.0")
                 .contact(new Contact("Evgeny Timofeev", "https://vk.com/warestone","some@email.com"))
                 .license("APACHE LICENSE, VERSION 2.0")
                 .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0")

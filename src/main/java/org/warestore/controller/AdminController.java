@@ -49,7 +49,7 @@ public class AdminController {
         }
     }
     @PostMapping("/getOrderPageButtonsAdmin")
-    public String nextRiflesPage(@RequestParam("currentPage") String page, Model model, @CookieValue(value = "WarestoreToken", required = true) Cookie token){
+    public String nextOrdersPage(@RequestParam("currentPage") String page, Model model, @CookieValue(value = "WarestoreToken", required = true) Cookie token){
         return getAllOrders(model, token, page);
     }
 }
