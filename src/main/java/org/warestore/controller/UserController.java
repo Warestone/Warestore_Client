@@ -89,6 +89,18 @@ public class UserController {
             return responseController.response(model,
                     new ResponseHTML("Warestore - Изменение информации", "Информация в профиле не была изменена.\nПопробуйте позже."));
         }
+        catch (HttpClientErrorException.Gone ignored){
+            return responseController.response(model,
+                    new ResponseHTML("Warestore - Изменение информации", "Информация в профиле не была изменена.\nДанный телефон уже зарегистрирован в системе!"));
+        }
+        catch (HttpClientErrorException.MethodNotAllowed ignored){
+            return responseController.response(model,
+                    new ResponseHTML("Warestore - Изменение информации", "Информация в профиле не была изменена.\nДанный email уже зарегистрирован в системе!"));
+        }
+        catch (HttpClientErrorException.UnsupportedMediaType ignored){
+            return responseController.response(model,
+                    new ResponseHTML("Warestore - Изменение информации", "Информация в профиле не была изменена.\nДанный email и телефон уже зарегистрированы в системе!"));
+        }
     }
 
 
@@ -112,6 +124,18 @@ public class UserController {
         catch (HttpClientErrorException.NotAcceptable ignored){
             return responseController.response(model,
                     new ResponseHTML("Warestore - Регистрация", "Зарегистрировать нового пользователя не удалось, попробуйте позже."));
+        }
+        catch (HttpClientErrorException.Gone ignored){
+            return responseController.response(model,
+                    new ResponseHTML("Warestore - Регистрация", "Зарегистрировать нового пользователя не удалось.\nДанный телефон уже зарегистрирован в системе!"));
+        }
+        catch (HttpClientErrorException.MethodNotAllowed ignored){
+            return responseController.response(model,
+                    new ResponseHTML("Warestore - Регистрация", "Зарегистрировать нового пользователя не удалось.\nДанный email уже зарегистрирован в системе!"));
+        }
+        catch (HttpClientErrorException.UnsupportedMediaType ignored){
+            return responseController.response(model,
+                    new ResponseHTML("Warestore - Регистрация", "Зарегистрировать нового пользователя не удалось.\nДанный телефон и email уже зарегистрированы в системе!"));
         }
     }
 
