@@ -123,7 +123,7 @@ public class UserController {
         }
         catch (HttpClientErrorException.NotAcceptable ignored){
             return responseController.response(model,
-                    new ResponseHTML("Warestore - Регистрация", "Зарегистрировать нового пользователя не удалось, попробуйте позже."));
+                    new ResponseHTML("Warestore - Регистрация", "Пользователь с данным логином уже существует!\nПридумайте другой логин."));
         }
         catch (HttpClientErrorException.Gone ignored){
             return responseController.response(model,
@@ -160,7 +160,7 @@ public class UserController {
         }
         catch (HttpClientErrorException.NotAcceptable | HttpClientErrorException.NotFound ignored){
             return responseController.response(model,
-                    new ResponseHTML("Warestore - Изменение информации", "Ваш пароль не был изменён.\nПопробуйте позже."));
+                    new ResponseHTML("Warestore - Изменение информации", "Не верный текущий пароль!\nПопробуйте снова."));
         }
     }
 
