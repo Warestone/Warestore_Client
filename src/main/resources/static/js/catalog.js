@@ -1,6 +1,12 @@
 var cart = new Map();
 
 window.onload = function() {
+    let currentPage = parseInt(document.getElementById("currentPage").value) ;
+    let tableLength = document.getElementById('products').rows.length;
+    if (currentPage!==0 && tableLength===1){
+        document.getElementById("currentPage").value = currentPage-1;
+        document.forms[1].submit();
+    }
     cart = getCartFromCookie()
     updateCartView()
 };

@@ -191,6 +191,7 @@ public class UserController {
             model.addAttribute("userCredentials", user);
             model.addAttribute("editUser", new User());
             model.addAttribute("editPassword", new EditPassword());
+            model.addAttribute("currentPageValue", requestService.getPage(page));
             return "profile";
         }
         catch (HttpClientErrorException.Forbidden ignored){

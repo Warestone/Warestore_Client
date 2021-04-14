@@ -1,8 +1,13 @@
 function prevPage(){
-    let currentPage = document.getElementById("currentPage");
-    if (currentPage.value>0)
-        currentPage.value -= 1
+    let currentPage = parseInt(document.getElementById("currentPage").value) ;
+    if (currentPage>0)
+        document.getElementById("currentPage").value = currentPage-1;
+
 }
 function nextPage(){
-    document.getElementById("currentPage").value+=1;
+    let tableLength = document.getElementById('products').rows.length;
+    if (tableLength===6){
+        document.getElementById("currentPage").value=parseInt(document.getElementById("currentPage").value) + 1;
+    }
+
 }

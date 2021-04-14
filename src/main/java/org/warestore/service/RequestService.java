@@ -40,12 +40,13 @@ public class RequestService {
     }
 
     public String getURL(String url, String page){
-        if (page == null) return url+0;
-        else return url+page;
+        return url+getPage(page);
     }
 
-    public boolean checkStatusCode(ResponseEntity<?> response){
-        return response.getStatusCode() == HttpStatus.OK;
+    public int getPage(String page){
+        if (page==null)
+            return 0;
+        else return Integer.parseInt(page);
     }
 
     private HttpHeaders getHeaders(Cookie token){

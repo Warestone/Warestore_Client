@@ -60,6 +60,7 @@ public class CatalogController {
                     HttpMethod.GET, null
             );
             List<Weapon> rifles = (List<Weapon>) response.getBody();
+            model.addAttribute("currentPageValue", requestService.getPage(page));
             model.addAttribute("riflesList", rifles);
             return "rifles";
         }
@@ -82,6 +83,7 @@ public class CatalogController {
                     HttpMethod.GET, null
             );
             List<Weapon> shotguns = (List<Weapon>) response.getBody();
+            model.addAttribute("currentPageValue", requestService.getPage(page));
             model.addAttribute("shotgunsList", shotguns);
             return "shotguns";
         }
@@ -103,6 +105,7 @@ public class CatalogController {
                     HttpMethod.GET,null
             );
             List<Weapon> airguns = (List<Weapon>) response.getBody();
+            model.addAttribute("currentPageValue", requestService.getPage(page));
             model.addAttribute("airgunsList", airguns);
             return "airguns";
         }
@@ -124,6 +127,7 @@ public class CatalogController {
                     HttpMethod.GET, null
             );
             List<Ammo> ammo = (List<Ammo>) response.getBody();
+            model.addAttribute("currentPageValue", requestService.getPage(page));
             model.addAttribute("ammoList", ammo);
             return "ammo";
         }
@@ -146,6 +150,7 @@ public class CatalogController {
                     HttpMethod.GET, null
             );
             List<Target> targets = (List<Target>) response.getBody();
+            model.addAttribute("currentPageValue", requestService.getPage(page));
             model.addAttribute("targetList", targets);
             return "targets";
         }

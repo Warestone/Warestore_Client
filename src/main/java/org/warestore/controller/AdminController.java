@@ -37,6 +37,7 @@ public class AdminController {
                     );
             List<Order> orders = (List<Order>) response.getBody();
             model.addAttribute("orders", orders);
+            model.addAttribute("currentPageValue", requestService.getPage(page));
             return "administration";
         }
         catch (HttpClientErrorException.Forbidden ignored){
